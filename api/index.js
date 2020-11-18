@@ -2,6 +2,7 @@ const bodyParser = require('body-parser')
 const app = require('express')()
 const { query, body, validationResult } = require('express-validator')
 const mysql = require('mysql2/promise')
+const { uuid } = require('uuidv4')
 
 app.use(bodyParser.json())
 
@@ -36,15 +37,25 @@ app.get('/product', async (req, res) => {
 })
 
 app.post('/product',[
-  body('id').isUUID(4)
+  body('original_id').isUUID(4),
+  body('name').isLength({max: 64}),
+  body('price').isInt({min: 0}),
+  body('registrant_user_id').isUUID(4),
+  body('description').optional().isLength({max: 65535})
 ], (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  // TODO: pattren of not be given original_id.
   res.json({
-    id: req.body.id,
-    date: new Date().toLocaleString()
+    id: uuid(),
+    date: new Date().toLocaleString(),
+    original_id: req.body.original_id,
+    name: req.body.name,
+    price: req.body.price,
+    registrant_user_id: req.body.registrant_user_id,
+    description: req.body.description
   })
 })
 
