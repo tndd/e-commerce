@@ -43,7 +43,8 @@ app.post('/product',[
     return res.status(400).json({ errors: errors.array() });
   }
   res.json({
-    id: req.body.id
+    id: req.body.id,
+    date: new Date().toLocaleString()
   })
 })
 
