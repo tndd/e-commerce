@@ -5,6 +5,15 @@ const mysql = require('mysql2/promise')
 
 app.use(bodyParser.json())
 
+const get_connection = async () => {
+  return await mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'e-commerce'
+  })
+}
+
 app.get('/test_get',[
   query('q').isString().isLength({min: 8, max: 8})
 ], (req, res) => {
@@ -18,12 +27,7 @@ app.get('/test_get',[
 })
 
 app.get('/product', async (req, res) => {
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'e-commerce'
-  })
+  const connection = await get_connection()
   const [rows, fields] = await connection.execute('show databases;')
   res.json({
     rows,
