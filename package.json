@@ -14,7 +14,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
     "mysql2": "^2.2.5",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "uuidv4": "^6.2.5"
   },
   "devDependencies": {}
 }
