@@ -37,21 +37,21 @@ app.get('/product', async (req, res) => {
 })
 
 app.post('/product',[
-  body('original_id').isUUID(4),
+  body('original_id').isUUID(4).optional(),
   body('name').isLength({max: 64}),
   body('price').isInt({min: 0}),
   body('registrant_user_id').isUUID(4),
-  body('description').optional().isLength({max: 65535})
+  body('description').isLength({max: 65535}).optional()
 ], (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  // TODO: pattren of not be given original_id.
+  let id = uuid()
   res.json({
-    id: uuid(),
+    id,
     date: new Date().toLocaleString(),
-    original_id: req.body.original_id,
+    original_id: (req.body.original_id ? id : uuid()),
     name: req.body.name,
     price: req.body.price,
     registrant_user_id: req.body.registrant_user_id,
