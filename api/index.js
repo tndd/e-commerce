@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser')
 const app = require('express')()
-const { query, validationResult } = require('express-validator')
+const { query, body, validationResult } = require('express-validator')
 const mysql = require('mysql2/promise')
 
 app.use(bodyParser.json())
@@ -28,6 +28,18 @@ app.get('/product', async (req, res) => {
   res.json({
     rows,
     fields
+  })
+})
+
+app.post('/product',[
+  body('id').isUUID(4)
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  res.json({
+    id: req.body.id
   })
 })
 
