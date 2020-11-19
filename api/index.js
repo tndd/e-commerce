@@ -30,6 +30,7 @@ app.get('/test_get',[
 app.get('/product', async (req, res) => {
   const connection = await get_connection()
   const [rows, fields] = await connection.execute('show databases;')
+  connection.end()
   res.json({
     rows,
     fields
@@ -42,20 +43,27 @@ app.post('/product',[
   body('price').isInt({min: 0}),
   body('registrant_user_id').isUUID(4),
   body('description').isLength({max: 65535}).optional()
-], (req, res) => {
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  let id = uuid()
-  res.json({
+  const id = uuid()
+  const sql = "INSERT INTO `e-commerce`.product set ?;"
+  const payload = {
     id,
-    date: new Date().toLocaleString(),
-    original_id: (req.body.original_id ? id : uuid()),
+    original_id: (req.body.original_id ? req.body.original_id : id),
     name: req.body.name,
     price: req.body.price,
     registrant_user_id: req.body.registrant_user_id,
     description: req.body.description
+  }
+  const connection = await get_connection()
+  const [response, fields] = await connection.execute(mysql.format(sql, payload))
+  connection.end()
+  res.json({
+    response,
+    fields
   })
 })
 
