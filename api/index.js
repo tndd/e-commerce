@@ -59,13 +59,22 @@ app.post('/product',[
     registrant_user_id: req.body.registrant_user_id,
     description: req.body.description
   }
-  const connection = await get_connection()
-  const [response, fields] = await connection.execute(mysql.format(sql, payload))
-  connection.end()
-  res.json({
-    response,
-    fields
-  })
+  let connection
+  try {
+    connection = await get_connection()
+    const [result, fields] = await connection.execute(mysql.format(sql, payload))
+    res.json({
+      result,
+      fields
+    })
+  }
+  catch(e) {
+    await connection.rollback()
+    res.status(400).json(e)
+  }
+  finally {
+    connection.end()
+  }
 })
 
 module.exports = app
