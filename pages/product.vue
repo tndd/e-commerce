@@ -31,15 +31,15 @@
         <tbody>
           <tr>
             <td><label for="product_name">Name</label></td>
-            <td><input type="text" id="product_name"></td>
+            <td><input type="text" id="product_name" v-model="product_form.name"></td>
           </tr>
           <tr>
             <td><label for="product_price">Price</label></td>
-            <td><input type="text" id="product_price"></td>
+            <td><input type="text" id="product_price" v-model="product_form.price"></td>
           </tr>
         </tbody>
       </table>
-      <button>Regist Product</button>
+      <button @click="post_product()">Regist Product</button>
     </div>
   </div>
 </template>
@@ -49,6 +49,32 @@ export default {
   async asyncData({ params, $http }) {
     const { result } = await $http.$get('http://localhost:3000/api/product')
     return { products: result }
+  },
+  data() {
+    return {
+        product_form: {
+          name: null,
+          price: null
+      }
+    }
+  },
+  methods: {
+    async post_product() {
+      const payload = {
+        name: this.product_form.name,
+        price: this.product_form.price,
+        registrant_user_id: 'cc7cf5d4-593e-4815-a894-1748a1ca6b85'
+      }
+      try {
+        await this.$http.post('http://localhost:3000/api/product', payload)
+        this.product_form.name = null
+        this.product_form.price = null
+      }
+      catch(e) {
+        console.error(e)
+        alert('error in post: http://localhost:3000/api/product')
+      }
+    }
   }
 }
 </script>
