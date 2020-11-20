@@ -69,6 +69,9 @@ export default {
         await this.$http.post('http://localhost:3000/api/product', payload)
         this.product_form.name = null
         this.product_form.price = null
+        // reload products
+        const { result } = await $http.$get('http://localhost:3000/api/product')
+        this.products = result
       }
       catch(e) {
         console.error(e)
