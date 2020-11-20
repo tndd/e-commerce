@@ -15,27 +15,35 @@ const get_connection = async () => {
   })
 }
 
-app.get('/test_get',[
-  query('q').isString().isLength({min: 8, max: 8})
-], (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+const execute_sql = async (sql) => {
+  // [staus: boolean, response: object]
+  let connection
+  try {
+    connection = await get_connection()
+    const [result, fields] = await connection.execute(sql)
+    return [true, {
+      result,
+      fields
+    }]
   }
-  res.json({
-    query: req.query
-  })
-})
+  catch(e) {
+    await connection.rollback()
+    return [false, e]
+  }
+  finally {
+    connection.end()
+  }
+}
 
 app.get('/product', async (req, res) => {
   const sql = 'SELECT id, registrated_date, original_id, registrant_user_id, name, price, description FROM `e-commerce`.product;'
-  const connection = await get_connection()
-  const [rows, fields] = await connection.execute(sql)
-  connection.end()
-  res.json({
-    rows,
-    fields
-  })
+  const [status, response] = await execute_sql(sql)
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
 })
 
 app.post('/product',[
@@ -59,21 +67,12 @@ app.post('/product',[
     registrant_user_id: req.body.registrant_user_id,
     description: req.body.description
   }
-  let connection
-  try {
-    connection = await get_connection()
-    const [result, fields] = await connection.execute(mysql.format(sql, payload))
-    res.json({
-      result,
-      fields
-    })
+  const [status, response] = await execute_sql(mysql.format(sql, payload))
+  if (status) {
+    res.json(response)
   }
-  catch(e) {
-    await connection.rollback()
-    res.status(400).json(e)
-  }
-  finally {
-    connection.end()
+  else {
+    res.status(400).json(response)
   }
 })
 
