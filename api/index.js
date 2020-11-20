@@ -28,8 +28,9 @@ app.get('/test_get',[
 })
 
 app.get('/product', async (req, res) => {
+  const sql = 'SELECT id, registrated_date, original_id, registrant_user_id, name, price, description FROM `e-commerce`.product;'
   const connection = await get_connection()
-  const [rows, fields] = await connection.execute('show databases;')
+  const [rows, fields] = await connection.execute(sql)
   connection.end()
   res.json({
     rows,
