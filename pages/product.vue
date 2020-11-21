@@ -46,9 +46,8 @@
 
 <script>
 export default {
-  async asyncData({ params, $http }) {
-    const { result } = await $http.$get('http://localhost:3000/api/product')
-    return { products: result }
+  async asyncData({ store }) {
+    await store.dispatch('load_products')
   },
   data() {
     return {
@@ -56,6 +55,11 @@ export default {
         name: null,
         price: null
       }
+    }
+  },
+  computed: {
+    products() {
+      return this.$store.state.products
     }
   },
   methods: {
