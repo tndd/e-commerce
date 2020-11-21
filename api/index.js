@@ -62,6 +62,7 @@ app.post('/product',[
   const payload = {
     id,
     original_id: (req.body.original_id ? req.body.original_id : id),
+    registrated_date: new Date().toLocaleString(),
     name: req.body.name,
     price: req.body.price,
     registrant_user_id: req.body.registrant_user_id,
