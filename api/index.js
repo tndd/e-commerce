@@ -84,8 +84,11 @@ app.delete('/product/:id', [
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const sql = "DELETE FROM `e-commerce`.product WHERE id=?"
-  const [status, response] = await execute_sql(mysql.format(sql, req.params.id))
+  const sql = "DELETE FROM `e-commerce`.product WHERE ?"
+  const payload = {
+    id: req.params.id
+  }
+  const [status, response] = await execute_sql(mysql.format(sql, payload))
   if (status) {
     res.json(response)
   }
