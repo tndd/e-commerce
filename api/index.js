@@ -79,12 +79,19 @@ app.post('/product',[
 
 app.delete('/product/:id', [
   param('id').isUUID(4)
-], (req, res) => {
+], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  res.send(req.params.id)
+  const sql = "DELETE FROM `e-commerce`.product WHERE id=?"
+  const [status, response] = await execute_sql(mysql.format(sql, req.params.id))
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
 })
 
 module.exports = app
