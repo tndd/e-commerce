@@ -52,9 +52,9 @@ export default {
   },
   data() {
     return {
-        product_form: {
-          name: null,
-          price: null
+      product_form: {
+        name: null,
+        price: null
       }
     }
   },
