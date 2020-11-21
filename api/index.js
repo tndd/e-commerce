@@ -79,7 +79,7 @@ app.post('/product',[
 
 app.delete('/product/:id', [
   param('id').isUUID(4)
-], (res, req) => {
+], (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
