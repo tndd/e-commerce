@@ -1,6 +1,6 @@
 const bodyParser = require('body-parser')
 const app = require('express')()
-const { query, body, validationResult } = require('express-validator')
+const { param, body, validationResult } = require('express-validator')
 const mysql = require('mysql2/promise')
 const { uuid } = require('uuidv4')
 
@@ -76,5 +76,22 @@ app.post('/product',[
     res.status(400).json(response)
   }
 })
+
+// app.delete('/product/:id', [
+//   param('id').isUUID(4)
+// ], async (res, req) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(400).json({ errors: errors.array() });
+//   }
+//   const sql = "DELETE FROM `e-commerce`.product WHERE id='?'"
+//   const [status, response] = await execute_sql(mysql.format(sql, req.params.id))
+//   if (status) {
+//     res.json(response)
+//   }
+//   else {
+//     res.status(400).json(response)
+//   }
+// })
 
 module.exports = app
