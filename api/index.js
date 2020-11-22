@@ -29,10 +29,28 @@ const execute_query = async (query) => {
   }
   catch(e) {
     await connection.rollback()
+    console.error(e)
     return [false, e]
   }
   finally {
-    connection.end()
+    await connection.end()
+  }
+}
+
+const execute_queries = async (queries) => {
+  let connection
+  try {
+    connection = await get_connection()
+    await Promise.all(queries.map(q => connection.execute(q)))
+    connection.commit()
+  }
+  catch(e) {
+    await connection.rollback()
+    console.error(e)
+    return [false, e]
+  }
+  finally {
+    await connection.end()
   }
 }
 
