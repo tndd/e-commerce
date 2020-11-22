@@ -15,12 +15,12 @@ const get_connection = async () => {
   })
 }
 
-const execute_sql = async (sql) => {
+const execute_query = async (query) => {
   // [staus: boolean, response: object]
   let connection
   try {
     connection = await get_connection()
-    const [result, fields] = await connection.execute(sql)
+    const [result, fields] = await connection.execute(query)
     return [true, {
       result,
       fields
@@ -36,8 +36,8 @@ const execute_sql = async (sql) => {
 }
 
 app.get('/product', async (req, res) => {
-  const sql = 'SELECT id, registrated_date, original_id, registrant_user_id, name, price, description FROM `e-commerce`.product;'
-  const [status, response] = await execute_sql(sql)
+  const query = 'SELECT id, registrated_date, original_id, registrant_user_id, name, price, description FROM `e-commerce`.product;'
+  const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
   }
@@ -58,7 +58,7 @@ app.post('/product',[
     return res.status(400).json({ errors: errors.array() });
   }
   const id = uuid()
-  const sql = "INSERT INTO `e-commerce`.product set ?;"
+  const query = "INSERT INTO `e-commerce`.product set ?;"
   const payload = {
     id,
     original_id: (req.body.original_id ? req.body.original_id : id),
@@ -68,7 +68,7 @@ app.post('/product',[
     registrant_user_id: req.body.registrant_user_id,
     description: req.body.description
   }
-  const [status, response] = await execute_sql(mysql.format(sql, payload))
+  const [status, response] = await execute_query(mysql.format(query, payload))
   if (status) {
     res.json(response)
   }
@@ -84,11 +84,11 @@ app.delete('/product/:id', [
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const sql = "DELETE FROM `e-commerce`.product WHERE ?"
+  const query = "DELETE FROM `e-commerce`.product WHERE ?"
   const payload = {
     id: req.params.id
   }
-  const [status, response] = await execute_sql(mysql.format(sql, payload))
+  const [status, response] = await execute_query(mysql.format(query, payload))
   if (status) {
     res.json(response)
   }
