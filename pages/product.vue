@@ -41,6 +41,11 @@
       </table>
       <button @click="post_product()">Regist Product</button>
     </div>
+    <div>
+      <h1>Delete Product</h1>
+      <input type="text" placeholder="Target removed product id" v-model="delete_id">
+      <button @click="delete_product()">Delete</button>
+    </div>
   </div>
 </template>
 
@@ -54,7 +59,8 @@ export default {
       product_form: {
         name: null,
         price: null
-      }
+      },
+      delete_id: null
     }
   },
   computed: {
@@ -78,6 +84,18 @@ export default {
       catch(e) {
         console.error(e)
         alert('error in post: http://localhost:3000/api/product')
+      }
+    },
+    async delete_product() {
+      const endpoint = `http://localhost:3000/api/product/${this.delete_id}`
+      try {
+        await this.$http.delete(endpoint)
+        this.delete_id = null
+        await this.$store.dispatch('load_products')
+      }
+      catch(e) {
+        console.error(e)
+        alert(`error in delete: ${endpoint}`)
       }
     }
   }
