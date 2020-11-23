@@ -117,6 +117,17 @@ app.delete('/product/:id', [
   }
 })
 
+app.get('/transaction', async (req, res) => {
+  const query = 'SELECT id, ordered_date, buyer_id, product_id, quantity FROM `e-commerce`.`transaction`;'
+  const [status, response] = await execute_query(query)
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
 app.post('/transaction', [
   body('buyer_id').isUUID(4),
   body('ordered_date').isISO8601(),
