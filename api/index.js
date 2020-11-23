@@ -117,10 +117,10 @@ app.delete('/product/:id', [
 })
 
 app.post('/transaction', [
-  body('product_id').isUUID(4),
-  body('quantity').isInt({min: 1}),
   body('buyer_id').isUUID(4),
-  body('ordered_date').isISO8601()
+  body('ordered_date').isISO8601(),
+  body('products.*.id').isUUID(4),
+  body('products.*.quantity').isInt({min: 1})
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -130,8 +130,7 @@ app.post('/transaction', [
     id: uuid(4),
     ordered_date: req.body.ordered_date,
     buyer_id: req.body.buyer_id,
-    product_id: req.body.product_id,
-    quantity: req.body.quantity
+    products: req.body.products
   }
   res.json(payload)
 })
