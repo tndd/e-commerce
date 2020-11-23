@@ -41,8 +41,9 @@ const execute_queries = async (queries) => {
   let connection
   try {
     connection = await get_connection()
-    await Promise.all(queries.map(q => connection.execute(q)))
+    const results = await Promise.all(queries.map(q => connection.execute(q)))
     connection.commit()
+    return [true, results]
   }
   catch(e) {
     await connection.rollback()
@@ -126,13 +127,24 @@ app.post('/transaction', [
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() })
   }
-  const payload = {
-    id: uuid(4),
-    ordered_date: req.body.ordered_date,
-    buyer_id: req.body.buyer_id,
-    products: req.body.products
+  let queries = []
+  req.body.products.forEach(product => {
+    const payload = {
+      id: uuid(4),
+      ordered_date: req.body.ordered_date,
+      buyer_id: req.body.buyer_id,
+      product_id: product.id,
+      quantity: product.quantity
+    }
+    queries.push(mysql.format("INSERT INTO `e-commerce`.`transaction` set ?;", payload))
+  })
+  const [status, response] = await execute_queries(queries)
+  if (status) {
+    res.json(response)
   }
-  res.json(payload)
+  else {
+    res.status(400).json(response)
+  }
 })
 
 module.exports = app
