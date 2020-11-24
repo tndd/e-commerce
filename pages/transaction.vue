@@ -29,9 +29,6 @@
 
 <script>
 export default {
-  async asyncData({ store }) {
-    await store.dispatch('load_transactions')
-  },
   computed: {
     transactions() {
       return this.$store.state.transactions

@@ -51,9 +51,6 @@
 
 <script>
 export default {
-  async asyncData({ store }) {
-    await store.dispatch('load_products')
-  },
   data() {
     return {
       product_form: {
