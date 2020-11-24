@@ -30,6 +30,7 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxt/http',
+    'nuxt-vue-select'
   ],
 
   http: {
