@@ -25,26 +25,21 @@
       <h1>Regist Transactions</h1>
       choose the products you want to buy and add them to the cart.
       <div>
+        <h2>Cart</h2>
+      </div>
+      <div>
         <h2>Products</h2>
           <table border="1">
             <tbody>
               <tr>
-                <th>Registrated Date</th>
-                <th>ID</th>
-                <th>Original ID</th>
-                <th>Registrant User ID</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Description</th>
+                <th></th>
               </tr>
-              <tr v-for="p in products" :key="p.data">
-                <td>{{p.registrated_date}}</td>
-                <td>{{p.id}}</td>
-                <td>{{p.original_id}}</td>
-                <td>{{p.registrant_user_id}}</td>
+              <tr v-for="p in products" :key="p.name">
                 <td>{{p.name}}</td>
                 <td>{{p.price}}</td>
-                <td>{{p.description}}</td>
+                <button>Pick</button>
               </tr>
             </tbody>
           </table>
