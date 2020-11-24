@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -61,9 +63,9 @@ export default {
     }
   },
   computed: {
-    products() {
-      return this.$store.state.products
-    }
+    ...mapState({
+      products: state => state.products
+    })
   },
   methods: {
     async post_product() {
