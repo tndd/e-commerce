@@ -29,20 +29,20 @@
       </div>
       <div>
         <h2>Products</h2>
-          <table border="1">
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th></th>
-              </tr>
-              <tr v-for="p in products" :key="p.name">
-                <td>{{p.name}}</td>
-                <td>{{p.price}}</td>
-                <button>Pick</button>
-              </tr>
-            </tbody>
-          </table>
+        <table border="1">
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+            <tr v-for="p in products" :key="p.name">
+              <td>{{p.name}}</td>
+              <td>{{p.price}}</td>
+              <button>Pick</button>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -50,6 +50,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import vSelect from 'vue-select'
 
 export default {
   computed: {
