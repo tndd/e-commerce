@@ -1,6 +1,7 @@
 export const state = () => ({
   products: [],
-  transactions: []
+  transactions: [],
+  cart: []
 })
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
   },
   set_transactions(state, transactions) {
     state.transactions = transactions
+  },
+  add_product_to_cart(state, {product_id, quantity}) {
+    state.cart.push({product_id, quantity})
   }
 }
 

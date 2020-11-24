@@ -26,13 +26,17 @@
       choose the products you want to buy and add them to the cart.
       <div>
         <h2>Cart</h2>
-        No contents
+        {{cart}}
       </div>
       <div>
         <h2>Products</h2>
-        <v-select label="name" :options="products"></v-select>
+        <v-select label="name" :options="products" v-model="selected_product"></v-select>
+        <v-select :options="[1,2,3,4,5]" v-model="selected_num"></v-select>
+        <button @click="add_to_cart()">Add to cart</button>
       </div>
     </div>
+    {{selected_product}}
+    {{selected_num}}
   </div>
 </template>
 
@@ -40,11 +44,35 @@
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      selected_product: null,
+      selected_num: null
+    }
+  },
   computed: {
     ...mapState({
       transactions: state => state.transactions,
-      products: state => state.products
+      products: state => state.products,
+      cart: state => state.cart
     })
+  },
+  methods: {
+    add_to_cart() { 
+      if (
+        this.selected_product == null ||
+        this.selected_num == null) 
+      {
+        alert('Empty forms exist.')
+        return
+      }
+      this.$store.commit('add_product_to_cart', {
+        product_id: this.selected_product.id,
+        quantity: this.selected_num
+      })
+      this.selected_product = null
+      this.selected_num = null
+    }
   }
 }
 </script>
