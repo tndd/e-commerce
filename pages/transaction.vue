@@ -11,7 +11,7 @@
             <th>Product ID</th>
             <th>Quantity</th>
           </tr>
-          <tr v-for="t in transactions" :key="t.ordered_date">
+          <tr v-for="t in transactions" :key="t.id">
             <td>{{t.ordered_date}}</td>
             <td>{{t.id}}</td>
             <td>{{t.buyer_id}}</td>
@@ -35,8 +35,6 @@
         <button @click="add_to_cart()">Add to cart</button>
       </div>
     </div>
-    {{selected_product}}
-    {{selected_num}}
   </div>
 </template>
 
@@ -68,6 +66,7 @@ export default {
       }
       this.$store.commit('add_product_to_cart', {
         product_id: this.selected_product.id,
+        product_name: this.selected_product.name,
         quantity: this.selected_num
       })
       this.selected_product = null

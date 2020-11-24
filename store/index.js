@@ -11,8 +11,18 @@ export const mutations = {
   set_transactions(state, transactions) {
     state.transactions = transactions
   },
-  add_product_to_cart(state, {product_id, quantity}) {
-    state.cart.push({product_id, quantity})
+  add_product_to_cart(state, {product_id, product_name, quantity}) {
+    const idx = state.cart.findIndex(c => c.product_id === product_id)
+    if (idx !== -1) {
+      state.cart[idx].quantity += quantity
+    }
+    else {
+      state.cart.push({
+        product_id,
+        product_name,
+        quantity
+      })
+    }
   }
 }
 
