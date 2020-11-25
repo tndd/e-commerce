@@ -140,15 +140,27 @@ app.post('/transaction', [
     return res.status(400).json({ errors: errors.array() })
   }
   let queries = []
+  let ordered_date = new Date().toLocaleString()
+  if (req.body.ordered_date) {
+    ordered_date = req.body.ordered_date
+  }
+  const query_transaction = "INSERT INTO `e-commerce`.`transaction` set ?;"
+  const query_tran_progress = "INSERT INTO `e-commerce`.`transaction_progress` set ?;"
   req.body.products.forEach(product => {
-    const payload = {
-      id: uuid(4),
-      ordered_date: (req.body.ordered_date ? req.body.ordered_date : new Date().toLocaleString()),
+    const id = uuid(4)
+    const payload_transaction = {
+      id,
+      ordered_date,
       buyer_id: req.body.buyer_id,
       product_id: product.id,
       quantity: product.quantity
     }
-    queries.push(mysql.format("INSERT INTO `e-commerce`.`transaction` set ?;", payload))
+    const payload_tran_progress = {
+      id,
+      update_date: ordered_date
+    }
+    queries.push(mysql.format(query_transaction, payload_transaction))
+    queries.push(mysql.format(query_tran_progress, payload_tran_progress))
   })
   const [status, response] = await execute_queries(queries)
   if (status) {
