@@ -4,6 +4,15 @@ export const state = () => ({
   cart: []
 })
 
+export const getters = {
+  cart_id_quantity(state) {
+    return state.cart.map(item => ({
+      id: item.product.id,
+      quantity: item.quantity
+    }))
+  }
+}
+
 export const mutations = {
   set_products(state, products) {
     state.products = products

@@ -53,6 +53,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -66,7 +67,10 @@ export default {
       transactions: state => state.transactions,
       products: state => state.products,
       cart: state => state.cart
-    })
+    }),
+    ...mapGetters([
+      'cart_id_quantity'
+    ])
   },
   methods: {
     add_to_cart() { 
@@ -88,12 +92,8 @@ export default {
       this.$store.commit('remove_from_cart', id)
     },
     async buy_cart_items() {
-      const products = this.$store.state.cart.map(item => ({
-        id: item.product.id,
-        quantity: item.quantity
-      }))
       const payload = {
-        products,
+        products: this.cart_id_quantity,
         buyer_id: "99a3c36c-3453-4992-a025-9776699eb64c"
       }
       const endpoint ='http://localhost:3000/api/transaction'
