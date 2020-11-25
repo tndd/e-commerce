@@ -100,6 +100,7 @@ export default {
       try {
         await this.$http.post(endpoint, payload)
         this.$store.commit('clear_cart_items')
+        await this.$store.dispatch('load_transactions')
       }
       catch(e) {
         console.error(e)
