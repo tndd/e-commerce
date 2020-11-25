@@ -28,6 +28,9 @@ export const mutations = {
     if (idx !== -1) {
       state.cart.splice(idx, 1)
     }
+  },
+  clear_cart_items(state) {
+    this.state.cart = []
   }
 }
 

@@ -39,6 +39,7 @@
             </tr>
           </tbody>
         </table>
+        <button @click="buy_cart_items()">Buy</button>
       </div>
       <div>
         <h2>Products</h2>
@@ -85,6 +86,25 @@ export default {
     },
     remove_from_cart(id) {
       this.$store.commit('remove_from_cart', id)
+    },
+    async buy_cart_items() {
+      const products = this.$store.state.cart.map(item => ({
+        id: item.product.id,
+        quantity: item.quantity
+      }))
+      const payload = {
+        products,
+        buyer_id: "99a3c36c-3453-4992-a025-9776699eb64c"
+      }
+      const endpoint ='http://localhost:3000/api/transaction'
+      try {
+        await this.$http.post(endpoint, payload)
+        this.$store.commit('clear_cart_items')
+      }
+      catch(e) {
+        console.error(e)
+        alert(`error in post: ${endpoint}`)
+      }
     }
   }
 }
