@@ -48,6 +48,11 @@
         <button @click="add_to_cart()">Add to cart</button>
       </div>
     </div>
+    <div>
+      <h1>Delete Transactino</h1>
+      <input type="text" placeholder="Target removed transaction id" v-model="delete_id">
+      <button @click="delete_transaction()">Delete</button>
+    </div>
   </div>
 </template>
 
@@ -59,7 +64,8 @@ export default {
   data() {
     return {
       selected_product: null,
-      selected_num: null
+      selected_num: null,
+      delete_id: null
     }
   },
   computed: {
@@ -105,6 +111,18 @@ export default {
       catch(e) {
         console.error(e)
         alert(`error in post: ${endpoint}`)
+      }
+    },
+    async delete_transaction() {
+      const endpoint = `http://localhost:3000/api/transaction/${this.delete_id}`
+      try {
+        await this.$http.delete(endpoint)
+        this.delete_id = null
+        await this.$store.dispatch('load_transactions')
+      }
+      catch(e) {
+        console.error(e)
+        alert(`error in delete: ${endpoint}`)
       }
     }
   }

@@ -158,4 +158,24 @@ app.post('/transaction', [
   }
 })
 
+app.delete('/transaction/:id', [
+  param('id').isUUID(4)
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const query = "DELETE FROM `e-commerce`.transaction WHERE ?"
+  const payload = {
+    id: req.params.id
+  }
+  const [status, response] = await execute_query(mysql.format(query, payload))
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
 module.exports = app
