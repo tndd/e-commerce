@@ -41,6 +41,7 @@ const execute_queries = async (queries) => {
   let connection
   try {
     connection = await get_connection()
+    connection.beginTransaction()
     const results = await Promise.all(queries.map(q => connection.execute(q)))
     connection.commit()
     return [true, results]
