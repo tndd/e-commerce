@@ -11,21 +11,20 @@ export const mutations = {
   set_transactions(state, transactions) {
     state.transactions = transactions
   },
-  add_product_to_cart(state, {product_id, product_name, quantity}) {
-    const idx = state.cart.findIndex(item => item.product_id === product_id)
+  add_product_to_cart(state, {product, quantity}) {
+    const idx = state.cart.findIndex(item => item.product_id === product.id)
     if (idx !== -1) {
       state.cart[idx].quantity += quantity
     }
     else {
       state.cart.push({
-        product_id,
-        product_name,
+        product,
         quantity
       })
     }
   },
   remove_from_cart(state, id) {
-    const idx = state.cart.findIndex(item => item.product_id === id)
+    const idx = state.cart.findIndex(item => item.product.id === id)
     if (idx !== -1) {
       state.cart.splice(idx, 1)
     }

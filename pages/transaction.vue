@@ -32,10 +32,10 @@
               <th>Product Name</th>
               <th>Quantity</th>
             </tr>
-            <tr v-for="item in cart" :key="item.product_name">
-              <td>{{item.product_name}}</td>
+            <tr v-for="item in cart" :key="item.product.name">
+              <td>{{item.product.name}}</td>
               <td>{{item.quantity}}</td>
-              <button @click="remove_from_cart(item.product_id)">Remove</button>
+              <button @click="remove_from_cart(item.product.id)">Remove</button>
             </tr>
           </tbody>
         </table>
@@ -77,8 +77,7 @@ export default {
         return
       }
       this.$store.commit('add_product_to_cart', {
-        product_id: this.selected_product.id,
-        product_name: this.selected_product.name,
+        product: this.selected_product,
         quantity: this.selected_num
       })
       this.selected_product = null
