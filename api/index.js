@@ -130,7 +130,7 @@ app.get('/transaction', async (req, res) => {
 
 app.post('/transaction', [
   body('buyer_id').isUUID(4),
-  body('ordered_date').isISO8601(),
+  body('ordered_date').isISO8601().optional(),
   body('products.*.id').isUUID(4),
   body('products.*.quantity').isInt({min: 1})
 ], async (req, res) => {
@@ -142,7 +142,7 @@ app.post('/transaction', [
   req.body.products.forEach(product => {
     const payload = {
       id: uuid(4),
-      ordered_date: req.body.ordered_date,
+      ordered_date: (req.body.ordered_date ? req.body.ordered_date : new Date().toLocaleString()),
       buyer_id: req.body.buyer_id,
       product_id: product.id,
       quantity: product.quantity
