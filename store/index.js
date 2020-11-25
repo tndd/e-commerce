@@ -12,7 +12,7 @@ export const mutations = {
     state.transactions = transactions
   },
   add_product_to_cart(state, {product_id, product_name, quantity}) {
-    const idx = state.cart.findIndex(c => c.product_id === product_id)
+    const idx = state.cart.findIndex(item => item.product_id === product_id)
     if (idx !== -1) {
       state.cart[idx].quantity += quantity
     }
@@ -22,6 +22,12 @@ export const mutations = {
         product_name,
         quantity
       })
+    }
+  },
+  remove_from_cart(state, id) {
+    const idx = state.cart.findIndex(item => item.product_id === id)
+    if (idx !== -1) {
+      state.cart.splice(idx, 1)
     }
   }
 }

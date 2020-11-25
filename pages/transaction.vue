@@ -85,7 +85,7 @@ export default {
       this.selected_num = null
     },
     remove_from_cart(id) {
-      console.log(`remove from cart: ${id}`)
+      this.$store.commit('remove_from_cart', id)
     }
   }
 }
