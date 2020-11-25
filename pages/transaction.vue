@@ -26,7 +26,19 @@
       choose the products you want to buy and add them to the cart.
       <div>
         <h2>Cart</h2>
-        {{cart}}
+        <table>
+          <tbody>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity</th>
+            </tr>
+            <tr v-for="item in cart" :key="item.product_name">
+              <td>{{item.product_name}}</td>
+              <td>{{item.quantity}}</td>
+              <button @click="remove_from_cart(item.product_id)">Remove</button>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div>
         <h2>Products</h2>
@@ -71,6 +83,9 @@ export default {
       })
       this.selected_product = null
       this.selected_num = null
+    },
+    remove_from_cart(id) {
+      console.log(`remove from cart: ${id}`)
     }
   }
 }
