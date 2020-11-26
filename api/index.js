@@ -156,7 +156,7 @@ app.post('/transaction', [
       quantity: product.quantity
     }
     const payload_tran_progress = {
-      transaction_id: id,
+      id,
       update_date: ordered_date
     }
     queries.push(mysql.format(query_transaction, payload_transaction))
