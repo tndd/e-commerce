@@ -206,4 +206,26 @@ app.get('/transaction_progress', async (req, res) => {
   }
 })
 
+app.post('/transaction_progress',[
+  body('id').isUUID(4),
+  body('status').isIn(['TODO','PACKED','SHIPPED','RECEIVED','CANCEL'])
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const query = 'INSERT INTO `e-commerce`.transaction_progress set ?;'
+  const payload = {
+    id: req.body.id,
+    status: req.body.status
+  }
+  const [status, response] = await execute_query(mysql.format(query, payload))
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
 module.exports = app
