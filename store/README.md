@@ -28,3 +28,9 @@ product_id | uuid
   ...
 ]
 ```
+## TransactionProgress
+name | type | description
+-- | -- | --
+id | uuid | transaction_id
+update_date | datetime |
+status | enum('TODO','PACKED','SHIPPED','RECEIVED','CANCEL') |
