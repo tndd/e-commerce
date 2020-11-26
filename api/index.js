@@ -191,4 +191,19 @@ app.delete('/transaction/:id', [
   }
 })
 
+app.get('/transaction_progress', async (req, res) => {
+  const query = `
+  select d_id.update_date, d_id.id, tp.status from 
+  (select max(update_date) as update_date, id from transaction_progress tp group by id) as d_id
+  join transaction_progress tp 
+  on d_id.id = tp.id and d_id.update_date = tp.update_date;`
+  const [status, response] = await execute_query(query)
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
 module.exports = app
