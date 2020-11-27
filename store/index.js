@@ -46,7 +46,7 @@ export const mutations = {
     }
   },
   clear_cart_items(state) {
-    this.state.cart = []
+    state.cart = []
   },
   set_transaction_progress(state, progresses) {
     let id_pg = {}
