@@ -11,6 +11,12 @@ export const getters = {
       id: item.product.id,
       quantity: item.quantity
     }))
+  },
+  transactions_full(state) {
+    return state.transactions.map(t => ({
+      ...t,
+      status: state.transaction_progress[t.id]
+    }))
   }
 }
 

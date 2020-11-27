@@ -10,13 +10,15 @@
             <th>Buyer ID</th>
             <th>Product ID</th>
             <th>Quantity</th>
+            <th>Status</th>
           </tr>
-          <tr v-for="t in transactions" :key="t.id">
+          <tr v-for="t in transactions_full" :key="t.id">
             <td>{{t.ordered_date}}</td>
             <td>{{t.id}}</td>
             <td>{{t.buyer_id}}</td>
             <td>{{t.product_id}}</td>
             <td>{{t.quantity}}</td>
+            <td>{{t.status}}</td>
           </tr>
         </tbody>
       </table>
@@ -75,7 +77,8 @@ export default {
       cart: state => state.cart
     }),
     ...mapGetters([
-      'cart_id_quantity'
+      'cart_id_quantity',
+      'transactions_full'
     ])
   },
   methods: {
