@@ -68,9 +68,10 @@ export const actions = {
     const { result } = await this.$http.$get(ep_tran_progress)
     commit('set_transaction_progress', result)
   },
-  async load_transactions({ commit }) {
+  async load_transactions({ commit, dispatch }) {
     const endpoint = 'http://localhost:3000/api/transaction'
     const { result } = await this.$http.$get(endpoint)
     commit('set_transactions', result)
+    dispatch('load_transaction_progress')
   }
 }
