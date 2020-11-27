@@ -72,6 +72,6 @@ export const actions = {
     const endpoint = 'http://localhost:3000/api/transaction'
     const { result } = await this.$http.$get(endpoint)
     commit('set_transactions', result)
-    dispatch('load_transaction_progress')
+    await dispatch('load_transaction_progress')
   }
 }
