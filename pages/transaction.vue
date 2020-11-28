@@ -51,9 +51,14 @@
       </div>
     </div>
     <div>
-      <h1>Delete Transaction</h1>
-      <input type="text" placeholder="Target removed transaction id" v-model="delete_id">
-      <button @click="delete_transaction()">Delete</button>
+      <h1>Update Transaction Status</h1>
+      <input type="text" placeholder="Target id" v-model="update_status_id">
+      <v-select 
+        placeholder="update status" 
+        :options="['WAITING_SHIPPING','SHIPPED','CANCEL']"  
+        v-model="update_status">
+      </v-select>
+      <button @click="update_transaction_status()">Update</button>
     </div>
   </div>
 </template>
@@ -67,7 +72,8 @@ export default {
     return {
       selected_product: null,
       selected_num: null,
-      delete_id: null
+      update_status_id: null,
+      update_status: null
     }
   },
   computed: {
@@ -116,12 +122,17 @@ export default {
         alert(`error in post: ${endpoint}`)
       }
     },
-    async delete_transaction() {
-      const endpoint = `http://localhost:3000/api/transaction/${this.delete_id}`
+    async update_transaction_status() {
+      const endpoint = `http://localhost:3000/api/transaction_progress`
+      const payload = {
+        id: this.update_status_id,
+        status: this.update_status
+      }
       try {
-        await this.$http.delete(endpoint)
-        this.delete_id = null
+        await this.$http.post(endpoint, payload)
         await this.$store.dispatch('load_transactions')
+        this.update_status_id = null
+        this.update_status = null
       }
       catch(e) {
         console.error(e)
