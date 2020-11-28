@@ -58,7 +58,8 @@ const execute_queries = async (queries) => {
 }
 
 app.get('/product', async (req, res) => {
-  const query = 'SELECT id, registrated_date, original_id, registrant_user_id, name, price, description FROM `e-commerce`.product;'
+  const q_path = './api/sql/product/select.sql'
+  const query = fs.readFileSync(q_path).toString()
   const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
@@ -193,7 +194,7 @@ app.delete('/transaction/:id', [
 })
 
 app.get('/transaction_progress', async (req, res) => {
-  const q_path = './api/sql/transaction_progress_get.sql'
+  const q_path = './api/sql/transaction_progress/select.sql'
   const query = fs.readFileSync(q_path).toString()
   const [status, response] = await execute_query(query)
   if (status) {
