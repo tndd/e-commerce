@@ -215,7 +215,7 @@ app.post('/transaction_progress',[
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const query = 'INSERT INTO `e-commerce`.transaction_progress set ?;'
+  const query = read_sql('./api/sql/transaction_progress/insert.sql')
   const payload = {
     id: req.body.id,
     status: req.body.status
