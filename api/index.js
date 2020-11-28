@@ -57,9 +57,12 @@ const execute_queries = async (queries) => {
   }
 }
 
+const read_sql = (path) => {
+  return fs.readFileSync(path).toString()
+}
+
 app.get('/product', async (req, res) => {
-  const q_path = './api/sql/product/select.sql'
-  const query = fs.readFileSync(q_path).toString()
+  const query = read_sql('./api/sql/product/select.sql')
   const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
@@ -194,8 +197,7 @@ app.delete('/transaction/:id', [
 })
 
 app.get('/transaction_progress', async (req, res) => {
-  const q_path = './api/sql/transaction_progress/select.sql'
-  const query = fs.readFileSync(q_path).toString()
+  const query = read_sql('./api/sql/transaction_progress/select.sql')
   const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
