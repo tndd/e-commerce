@@ -84,7 +84,7 @@ app.post('/product',[
     return res.status(400).json({ errors: errors.array() });
   }
   const id = uuid()
-  const query = "INSERT INTO `e-commerce`.product set ?;"
+  const query = read_sql('./api/sql/product/insert.sql')
   const payload = {
     id,
     original_id: (req.body.original_id ? req.body.original_id : id),
