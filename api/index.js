@@ -149,8 +149,8 @@ app.post('/transaction', [
   if (req.body.ordered_date) {
     ordered_date = req.body.ordered_date
   }
-  const query_transaction = "INSERT INTO `e-commerce`.`transaction` set ?;"
-  const query_tran_progress = "INSERT INTO `e-commerce`.`transaction_progress` set ?;"
+  const query_transaction = read_sql('./api/sql/transaction/insert.sql')
+  const query_tran_progress = read_sql('./api/sql/transaction_progress/insert.sql')
   req.body.products.forEach(product => {
     const id = uuid(4)
     const payload_transaction = {
