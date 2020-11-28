@@ -3,6 +3,7 @@ const app = require('express')()
 const { param, body, validationResult } = require('express-validator')
 const mysql = require('mysql2/promise')
 const { uuid } = require('uuidv4')
+const fs = require('fs')
 
 app.use(bodyParser.json())
 
@@ -192,11 +193,8 @@ app.delete('/transaction/:id', [
 })
 
 app.get('/transaction_progress', async (req, res) => {
-  const query = `
-  select d_id.update_date, d_id.id, tp.status from 
-  (select max(update_date) as update_date, id from transaction_progress tp group by id) as d_id
-  join transaction_progress tp 
-  on d_id.id = tp.id and d_id.update_date = tp.update_date;`
+  const q_path = './api/sql/transaction_progress_get.sql'
+  const query = fs.readFileSync(q_path).toString()
   const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
