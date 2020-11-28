@@ -5,7 +5,6 @@ name | type | description
 id | uuid
 registranted_date | datetime
 original_id | uuid
-registrant_user_id | uuid
 name | string
 price | int
 description | string

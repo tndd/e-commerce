@@ -8,7 +8,6 @@
             <th>Registrated Date</th>
             <th>ID</th>
             <th>Original ID</th>
-            <th>Registrant User ID</th>
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
@@ -17,7 +16,6 @@
             <td>{{p.registrated_date}}</td>
             <td>{{p.id}}</td>
             <td>{{p.original_id}}</td>
-            <td>{{p.registrant_user_id}}</td>
             <td>{{p.name}}</td>
             <td>{{p.price}}</td>
             <td>{{p.description}}</td>
@@ -71,8 +69,7 @@ export default {
     async post_product() {
       const payload = {
         name: this.product_form.name,
-        price: this.product_form.price,
-        registrant_user_id: 'cc7cf5d4-593e-4815-a894-1748a1ca6b85'
+        price: this.product_form.price
       }
       try {
         await this.$http.post('http://localhost:3000/api/product', payload)

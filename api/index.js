@@ -76,7 +76,6 @@ app.post('/product',[
   body('original_id').isUUID(4).optional(),
   body('name').isLength({max: 64}),
   body('price').isInt({min: 0}),
-  body('registrant_user_id').isUUID(4),
   body('description').isLength({max: 65535}).optional()
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -91,7 +90,6 @@ app.post('/product',[
     registrated_date: new Date().toLocaleString(),
     name: req.body.name,
     price: req.body.price,
-    registrant_user_id: req.body.registrant_user_id,
     description: req.body.description
   }
   const [status, response] = await execute_query(mysql.format(query, payload))
