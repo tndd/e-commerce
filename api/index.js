@@ -124,7 +124,7 @@ app.delete('/product/:id', [
 })
 
 app.get('/transaction', async (req, res) => {
-  const query = 'SELECT id, ordered_date, buyer_id, product_id, quantity FROM `e-commerce`.`transaction`;'
+  const query = read_sql('./api/sql/transaction/select.sql')
   const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
