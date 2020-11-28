@@ -110,7 +110,7 @@ app.delete('/product/:id', [
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const query = "DELETE FROM `e-commerce`.product WHERE ?"
+  const query = read_sql('./api/sql/product/delete.sql')
   const payload = {
     id: req.params.id
   }
