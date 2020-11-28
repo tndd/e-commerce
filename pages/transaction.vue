@@ -51,7 +51,7 @@
       </div>
     </div>
     <div>
-      <h1>Delete Transactino</h1>
+      <h1>Delete Transaction</h1>
       <input type="text" placeholder="Target removed transaction id" v-model="delete_id">
       <button @click="delete_transaction()">Delete</button>
     </div>
