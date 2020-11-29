@@ -1,2 +1,2 @@
-SELECT id, registrated_date, name, price, description
+SELECT id, registrated_date, registrant_user_id
 FROM `e-commerce`.product;
