@@ -105,11 +105,11 @@ export const actions = {
     commit('set_product_version', result)
   },
   async load_products({ commit, dispatch }) {
+    await dispatch('load_product_inventory')
+    await dispatch('load_product_version')
     const endpoint = 'http://localhost:3000/api/product'
     const { result } = await this.$http.$get(endpoint)
     commit('set_product_master', result)
-    await dispatch('load_product_inventory')
-    await dispatch('load_product_version')
   },
   async load_transaction_progress({ commit }) {
     const ep_tran_progress = 'http://localhost:3000/api/transaction_progress'
