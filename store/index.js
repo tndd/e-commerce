@@ -1,5 +1,5 @@
 export const state = () => ({
-  products: [],
+  product_master: [],
   product_inventory: {},
   product_version: {},
   transactions: [],
@@ -8,6 +8,17 @@ export const state = () => ({
 })
 
 export const getters = {
+  products(state) {
+    return state.product_master.map(p => ({
+      id: p.id,
+      update_date: state.product_version[p.id].update_date,
+      name: state.product_version[p.id].name,
+      price: state.product_version[p.id].price,
+      description: state.product_version[p.id].description,
+      inventory: state.product_inventory[p.id].num,
+      inventory_timestamp: state.product_inventory[p.id].update_date
+    }))
+  },
   cart_items(state) {
     return state.cart.map(item => ({
       id: item.product.id,
@@ -24,8 +35,8 @@ export const getters = {
 }
 
 export const mutations = {
-  set_products(state, products) {
-    state.products = products
+  set_product_master(state, products) {
+    state.product_master = products
   },
   set_transactions(state, transactions) {
     state.transactions = transactions
@@ -70,6 +81,7 @@ export const mutations = {
   },
   set_product_version(state, versions) {
     let product_version = {}
+    console.log(versions)
     versions.forEach(v => {
       product_version[v.product_id] = {
         update_date: v.update_date,
@@ -89,14 +101,14 @@ export const actions = {
     commit('set_product_inventory', result)
   },
   async load_product_version({ commit }) {
-    const endpoint = 'http://localhost:3000/api/product_inventory'
+    const endpoint = 'http://localhost:3000/api/product_version'
     const { result } = await this.$http.$get(endpoint)
     commit('set_product_version', result)
   },
-  async load_products({ commit, dispatch }) {
+  async load_product_master({ commit, dispatch }) {
     const endpoint = 'http://localhost:3000/api/product'
     const { result } = await this.$http.$get(endpoint)
-    commit('set_products', result)
+    commit('set_product_master', result)
     await dispatch('load_product_inventory')
     await dispatch('load_product_version')
   },
