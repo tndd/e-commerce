@@ -52,7 +52,7 @@ export const mutations = {
   set_transaction_progress(state, progresses) {
     let id_pg = {}
     progresses.forEach(p => {
-      id_pg[p.id] = p.status
+      id_pg[p.transaction_id] = p.status
     })
     state.transaction_progress = {...id_pg}
   }
