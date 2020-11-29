@@ -6,9 +6,10 @@ export const state = () => ({
 })
 
 export const getters = {
-  cart_id_quantity(state) {
+  cart_items(state) {
     return state.cart.map(item => ({
       id: item.product.id,
+      version: item.product.version,
       quantity: item.quantity
     }))
   },

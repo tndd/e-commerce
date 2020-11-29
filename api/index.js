@@ -134,6 +134,7 @@ app.post('/transaction', [
   body('buyer_id').isUUID(4),
   body('ordered_date').isISO8601().optional(),
   body('products.*.id').isUUID(4),
+  body('products.*.version').isISO8601(),
   body('products.*.quantity').isInt({min: 1})
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -148,18 +149,20 @@ app.post('/transaction', [
   const query_transaction = read_sql('./api/sql/transaction/insert.sql')
   const query_tran_progress = read_sql('./api/sql/transaction_progress/insert.sql')
   req.body.products.forEach(product => {
-    const id = uuid(4)
+    const transaction_id = uuid(4)
     const payload_transaction = {
-      id,
+      id: transaction_id,
       ordered_date,
       buyer_id: req.body.buyer_id,
       product_id: product.id,
+      product_version: product.version,
       quantity: product.quantity
     }
     const payload_tran_progress = {
-      id,
+      transaction_id,
       update_date: ordered_date
     }
+    console.log(mysql.format(query_transaction, payload_transaction))
     queries.push(mysql.format(query_transaction, payload_transaction))
     queries.push(mysql.format(query_tran_progress, payload_tran_progress))
   })

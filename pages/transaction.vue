@@ -9,6 +9,7 @@
             <th>ID</th>
             <th>Buyer ID</th>
             <th>Product ID</th>
+            <th>Product Version</th>
             <th>Quantity</th>
             <th>Status</th>
           </tr>
@@ -17,6 +18,7 @@
             <td>{{t.id}}</td>
             <td>{{t.buyer_id}}</td>
             <td>{{t.product_id}}</td>
+            <td>{{t.product_version}}</td>
             <td>{{t.quantity}}</td>
             <td>{{t.status}}</td>
           </tr>
@@ -83,7 +85,7 @@ export default {
       cart: state => state.cart
     }),
     ...mapGetters([
-      'cart_id_quantity',
+      'cart_items',
       'transactions_full'
     ])
   },
@@ -108,7 +110,7 @@ export default {
     },
     async buy_cart_items() {
       const payload = {
-        products: this.cart_id_quantity,
+        products: this.cart_items,
         buyer_id: "99a3c36c-3453-4992-a025-9776699eb64c"
       }
       const endpoint ='http://localhost:3000/api/transaction'

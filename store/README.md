@@ -14,6 +14,8 @@ id | uuid
 ordered_date | datetime
 buyer_id | uuid
 product_id | uuid
+product_version | datetime
+quantity | int
 
 ## Cart
 ```js
