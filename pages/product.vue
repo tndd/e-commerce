@@ -5,18 +5,18 @@
       <table border="1">
         <tbody>
           <tr>
-            <th>Registrated Date</th>
+            <th>Update Date</th>
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Description</th>
+            <th>Inventory</th>
           </tr>
           <tr v-for="p in products" :key="p.data">
-            <td>{{p.registrated_date}}</td>
+            <td>{{p.update_date}}</td>
             <td>{{p.id}}</td>
             <td>{{p.name}}</td>
             <td>{{p.price}}</td>
-            <td>{{p.description}}</td>
+            <td>{{p.inventory}}</td>
           </tr>
         </tbody>
       </table>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -59,9 +59,9 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      products: state => state.products
-    })
+    ...mapGetters([
+      'products'
+    ])
   },
   methods: {
     async post_product() {
