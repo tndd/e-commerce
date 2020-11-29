@@ -1,0 +1,1 @@
+INSERT INTO `e-commerce`.product_inventory SET ?;
