@@ -103,16 +103,37 @@ app.post('/product',[
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  const q_product = read_sql('./api/sql/product/insert.sql')
+  const q_prd_inventory = read_sql('./api/sql/product_inventory/insert.sql')
+  const q_prd_version = read_sql('./api/sql/product_version/insert.sql')
+
   const id = uuid()
-  const query = read_sql('./api/sql/product/insert.sql')
-  const payload = {
+  const date = new Date().toLocaleString()
+
+  const payload_product = {
     id,
-    registrated_date: new Date().toLocaleString(),
+    registrated_date: date,
+    registrant_user_id: 'd6216161-97b4-477e-87cb-3bdcecfb6d81'
+  }
+  const payload_prd_inventory = {
+    update_date: date,
+    product_id: id,
+    inventory: 0
+  }
+  const payload_prd_version = {
+    update_date: date,
+    product_id: id,
     name: req.body.name,
     price: req.body.price,
     description: req.body.description
   }
-  const [status, response] = await execute_query(mysql.format(query, payload))
+
+  let queries = []
+  queries.push(mysql.format(q_product, payload_product))
+  queries.push(mysql.format(q_prd_inventory, payload_prd_inventory))
+  queries.push(mysql.format(q_prd_version, payload_prd_version))
+  
+  const [status, response] = await execute_queries(queries)
   if (status) {
     res.json(response)
   }
@@ -184,7 +205,6 @@ app.post('/transaction', [
       transaction_id,
       update_date: ordered_date
     }
-    console.log(mysql.format(query_transaction, payload_transaction))
     queries.push(mysql.format(query_transaction, payload_transaction))
     queries.push(mysql.format(query_tran_progress, payload_tran_progress))
   })

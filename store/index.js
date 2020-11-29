@@ -81,7 +81,6 @@ export const mutations = {
   },
   set_product_version(state, versions) {
     let product_version = {}
-    console.log(versions)
     versions.forEach(v => {
       product_version[v.product_id] = {
         update_date: v.update_date,
@@ -105,7 +104,7 @@ export const actions = {
     const { result } = await this.$http.$get(endpoint)
     commit('set_product_version', result)
   },
-  async load_product_master({ commit, dispatch }) {
+  async load_products({ commit, dispatch }) {
     const endpoint = 'http://localhost:3000/api/product'
     const { result } = await this.$http.$get(endpoint)
     commit('set_product_master', result)
