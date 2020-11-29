@@ -73,7 +73,6 @@ app.get('/product', async (req, res) => {
 })
 
 app.post('/product',[
-  body('original_id').isUUID(4).optional(),
   body('name').isLength({max: 64}),
   body('price').isInt({min: 0}),
   body('description').isLength({max: 65535}).optional()
@@ -86,7 +85,6 @@ app.post('/product',[
   const query = read_sql('./api/sql/product/insert.sql')
   const payload = {
     id,
-    original_id: (req.body.original_id ? req.body.original_id : id),
     registrated_date: new Date().toLocaleString(),
     name: req.body.name,
     price: req.body.price,

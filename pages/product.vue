@@ -7,7 +7,6 @@
           <tr>
             <th>Registrated Date</th>
             <th>ID</th>
-            <th>Original ID</th>
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
@@ -15,7 +14,6 @@
           <tr v-for="p in products" :key="p.data">
             <td>{{p.registrated_date}}</td>
             <td>{{p.id}}</td>
-            <td>{{p.original_id}}</td>
             <td>{{p.name}}</td>
             <td>{{p.price}}</td>
             <td>{{p.description}}</td>
