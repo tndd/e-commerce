@@ -17,7 +17,7 @@ const get_connection = async () => {
   })
 }
 
-const execute_query = async (query) => {
+export const execute_query = async (query) => {
   // [staus: boolean, response: object]
   let connection
   try {
@@ -38,7 +38,7 @@ const execute_query = async (query) => {
   }
 }
 
-const execute_queries = async (queries) => {
+export const execute_queries = async (queries) => {
   let connection
   try {
     connection = await get_connection()
@@ -57,132 +57,9 @@ const execute_queries = async (queries) => {
   }
 }
 
-const read_sql = (path) => {
+export const read_sql = (path) => {
   return fs.readFileSync(path).toString()
 }
-
-app.get('/product', async (req, res) => {
-  const query = read_sql('./api/sql/product/select.sql')
-  const [status, response] = await execute_query(query)
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
-app.post('/product',[
-  body('name').isLength({max: 64}),
-  body('price').isInt({min: 0}),
-  body('description').isLength({max: 65535}).optional()
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const q_product = read_sql('./api/sql/product/insert.sql')
-  const q_prd_inventory = read_sql('./api/sql/product_inventory/insert.sql')
-  const q_prd_version = read_sql('./api/sql/product_version/insert.sql')
-
-  const id = uuid()
-  const date = new Date().toLocaleString()
-
-  const payload_product = {
-    id,
-    registrated_date: date,
-    registrant_user_id: 'd6216161-97b4-477e-87cb-3bdcecfb6d81'
-  }
-  const payload_prd_inventory = {
-    update_date: date,
-    product_id: id,
-    inventory: 0
-  }
-  const payload_prd_version = {
-    update_date: date,
-    product_id: id,
-    name: req.body.name,
-    price: req.body.price,
-    description: req.body.description
-  }
-
-  let queries = []
-  queries.push(mysql.format(q_product, payload_product))
-  queries.push(mysql.format(q_prd_inventory, payload_prd_inventory))
-  queries.push(mysql.format(q_prd_version, payload_prd_version))
-  
-  const [status, response] = await execute_queries(queries)
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
-app.get('/product_inventory', async (req, res) => {
-  const query = read_sql('./api/sql/product_inventory/select.sql')
-  const [status, response] = await execute_query(query)
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
-app.post('/product_inventory', [
-  body('id').isUUID(4),
-  body('inventory').isInt({min: 0})
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const query = read_sql('./api/sql/product_inventory/insert.sql')
-  const payload = {
-    product_id: req.body.id,
-    inventory: req.body.inventory
-  }
-  const [status, response] = await execute_query(mysql.format(query, payload))
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
-app.get('/product_version', async (req, res) => {
-  const query = read_sql('./api/sql/product_version/select.sql')
-  const [status, response] = await execute_query(query)
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
-app.delete('/product/:id', [
-  param('id').isUUID(4)
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  const query = read_sql('./api/sql/product/delete.sql')
-  const payload = {
-    id: req.params.id
-  }
-  const [status, response] = await execute_query(mysql.format(query, payload))
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
 
 app.get('/transaction', async (req, res) => {
   const query = read_sql('./api/sql/transaction/select.sql')
