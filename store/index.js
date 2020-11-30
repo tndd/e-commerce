@@ -11,12 +11,12 @@ export const getters = {
   products(state) {
     return state.product_master.map(p => ({
       id: p.id,
-      update_date: state.product_version[p.id].update_date,
-      name: state.product_version[p.id].name,
-      price: state.product_version[p.id].price,
-      description: state.product_version[p.id].description,
-      inventory: state.product_inventory[p.id].num,
-      inventory_timestamp: state.product_inventory[p.id].update_date
+      update_date: (p.id in state.product_version ? state.product_version[p.id].update_date : null),
+      name: (p.id in state.product_version ? state.product_version[p.id].name : null),
+      price: (p.id in state.product_version ? state.product_version[p.id].price : null),
+      description: (p.id in state.product_version ? state.product_version[p.id].description : null),
+      inventory: (p.id in state.product_inventory ? state.product_inventory[p.id].num : null),
+      inventory_timestamp: (p.id in state.product_inventory ? state.product_inventory[p.id].update_date : null)
     }))
   },
   cart_items(state) {
