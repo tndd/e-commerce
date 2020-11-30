@@ -44,6 +44,14 @@
       <button @click="post_inventory()">Update Inventory</button>
     </div>
     <div>
+      <h1>Update Product</h1>
+      <input type="text" placeholder="id" v-model="version_form.id">
+      <input type="text" placeholder="name" v-model="version_form.name">
+      <input type="number" placeholder="price" v-model="version_form.price">
+      <textarea cols="30" rows="5" placeholder="description" v-model="version_form.description"></textarea>
+      <button @click="post_version()">Update Product</button>
+    </div>
+    <div>
       <h1>Delete Product</h1>
       <input type="text" placeholder="Target removed product id" v-model="delete_id">
       <button @click="delete_product()">Delete</button>
@@ -64,6 +72,12 @@ export default {
       inventory_form: {
         id: null,
         num: null
+      },
+      version_form: {
+        id: null,
+        name: null,
+        price: null,
+        description: null
       },
       delete_id: null
     }
@@ -100,6 +114,32 @@ export default {
         await this.$http.post(endpoint, payload)
         this.inventory_form.id = null
         this.inventory_form.num = null
+        await this.$store.dispatch('load_products')
+      }
+      catch(e) {
+        console.error(e)
+        alert(`error in delete: ${endpoint}`)
+      }
+    },
+    async post_version() {
+      const target_prd = this.products.find(p => p.id === this.version_form.id)
+      if (!target_prd) {
+        alert('incorrect product id.')
+        return
+      }
+      const payload = {
+        id: this.version_form.id,
+        name: (this.version_form.name ? this.version_form.name : target_prd.name),
+        price: (this.version_form.price ? this.version_form.price : target_prd.price),
+        description: (this.version_form.description ? this.version_form.description : target_prd.description),
+      }
+      const endpoint = 'http://localhost:3000/api/product_version'
+      try {
+        await this.$http.post(endpoint, payload)
+        this.version_form.id = null
+        this.version_form.name = null
+        this.version_form.price = null
+        this.version_form.description = null
         await this.$store.dispatch('load_products')
       }
       catch(e) {

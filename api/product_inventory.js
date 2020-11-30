@@ -41,4 +41,30 @@ app.post('/product_inventory', [
   }
 })
 
+app.post('/product_version', [
+  body('id').isUUID(4),
+  body('name').isLength({max: 64}),
+  body('price').isInt({min: 0}),
+  body('description').isLength({max: 65535}).optional()
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const query = read_sql('./api/sql/product_version/insert.sql')
+  const payload = {
+    product_id: req.body.id,
+    name: req.body.name,
+    price: req.body.price,
+    description: req.body.description
+  }
+  const [status, response] = await execute_query(mysql.format(query, payload))
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
 module.exports = app
