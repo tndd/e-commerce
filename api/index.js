@@ -72,28 +72,6 @@ app.get('/product', async (req, res) => {
   }
 })
 
-app.get('/product_inventory', async (req, res) => {
-  const query = read_sql('./api/sql/product_inventory/select.sql')
-  const [status, response] = await execute_query(query)
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
-app.get('/product_version', async (req, res) => {
-  const query = read_sql('./api/sql/product_version/select.sql')
-  const [status, response] = await execute_query(query)
-  if (status) {
-    res.json(response)
-  }
-  else {
-    res.status(400).json(response)
-  }
-})
-
 app.post('/product',[
   body('name').isLength({max: 64}),
   body('price').isInt({min: 0}),
@@ -134,6 +112,28 @@ app.post('/product',[
   queries.push(mysql.format(q_prd_version, payload_prd_version))
   
   const [status, response] = await execute_queries(queries)
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
+app.get('/product_inventory', async (req, res) => {
+  const query = read_sql('./api/sql/product_inventory/select.sql')
+  const [status, response] = await execute_query(query)
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
+app.get('/product_version', async (req, res) => {
+  const query = read_sql('./api/sql/product_version/select.sql')
+  const [status, response] = await execute_query(query)
   if (status) {
     res.json(response)
   }
