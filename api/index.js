@@ -131,6 +131,28 @@ app.get('/product_inventory', async (req, res) => {
   }
 })
 
+app.post('/product_inventory', [
+  body('id').isUUID(4),
+  body('inventory').isInt({min: 0})
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const query = read_sql('./api/sql/product_inventory/insert.sql')
+  const payload = {
+    product_id: req.body.id,
+    inventory: req.body.inventory
+  }
+  const [status, response] = await execute_query(mysql.format(query, payload))
+  if (status) {
+    res.json(response)
+  }
+  else {
+    res.status(400).json(response)
+  }
+})
+
 app.get('/product_version', async (req, res) => {
   const query = read_sql('./api/sql/product_version/select.sql')
   const [status, response] = await execute_query(query)

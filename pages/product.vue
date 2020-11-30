@@ -38,6 +38,12 @@
       <button @click="post_product()">Regist Product</button>
     </div>
     <div>
+      <h1>Update Product Inventory</h1>
+      <input type="text" placeholder="product id" v-model="inventory_form.id">
+      <input type="number" placeholder="inventory num" v-model="inventory_form.num">
+      <button @click="post_inventory()">Update Inventory</button>
+    </div>
+    <div>
       <h1>Delete Product</h1>
       <input type="text" placeholder="Target removed product id" v-model="delete_id">
       <button @click="delete_product()">Delete</button>
@@ -54,6 +60,10 @@ export default {
       product_form: {
         name: null,
         price: null
+      },
+      inventory_form: {
+        id: null,
+        num: null
       },
       delete_id: null
     }
@@ -78,6 +88,23 @@ export default {
       catch(e) {
         console.error(e)
         alert('error in post: http://localhost:3000/api/product')
+      }
+    },
+    async post_inventory() {
+      const endpoint = 'http://localhost:3000/api/product_inventory'
+      const payload = {
+        id: this.inventory_form.id,
+        inventory: this.inventory_form.num
+      }
+      try {
+        await this.$http.post(endpoint, payload)
+        this.inventory_form.id = null
+        this.inventory_form.num = null
+        await this.$store.dispatch('load_products')
+      }
+      catch(e) {
+        console.error(e)
+        alert(`error in delete: ${endpoint}`)
       }
     },
     async delete_product() {
