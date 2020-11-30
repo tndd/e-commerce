@@ -83,9 +83,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'products'
-    ])
+    ...mapGetters({
+      products: 'product/list'
+    })
   },
   methods: {
     async post_product() {
@@ -97,7 +97,7 @@ export default {
         await this.$http.post('http://localhost:3000/api/product', payload)
         this.product_form.name = null
         this.product_form.price = null
-        await this.$store.dispatch('load_products')
+        await this.$store.dispatch('product/load')
       }
       catch(e) {
         console.error(e)
@@ -114,7 +114,7 @@ export default {
         await this.$http.post(endpoint, payload)
         this.inventory_form.id = null
         this.inventory_form.num = null
-        await this.$store.dispatch('load_products')
+        await this.$store.dispatch('product/load')
       }
       catch(e) {
         console.error(e)
@@ -140,7 +140,7 @@ export default {
         this.version_form.name = null
         this.version_form.price = null
         this.version_form.description = null
-        await this.$store.dispatch('load_products')
+        await this.$store.dispatch('product/load')
       }
       catch(e) {
         console.error(e)
@@ -152,7 +152,7 @@ export default {
       try {
         await this.$http.delete(endpoint)
         this.delete_id = null
-        await this.$store.dispatch('load_products')
+        await this.$store.dispatch('product/load')
       }
       catch(e) {
         console.error(e)

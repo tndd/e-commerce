@@ -1,7 +1,7 @@
 export default async ({ store }) => {
   try {
     await Promise.all([
-      store.dispatch('load_products'),
+      store.dispatch('product/load'),
       store.dispatch('load_transactions')
     ])
   }
