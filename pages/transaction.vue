@@ -47,7 +47,7 @@
 <script>
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
-import TransactionList from '../components/TransactionList.vue'
+import TransactionList from '~/components/TransactionList.vue'
 
 export default {
   components: { TransactionList },

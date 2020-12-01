@@ -44,7 +44,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ProductList from '../components/ProductList.vue'
+import ProductList from '~/components/ProductList.vue'
 
 export default {
   components: { ProductList },
