@@ -16,7 +16,6 @@
     "express-validator": "^6.6.1",
     "mysql2": "^2.2.5",
     "nuxt": "^2.14.6",
-    "nuxt-vue-select": "^0.1.4",
     "uuidv4": "^6.2.5",
     "vue-select": "^3.10.8"
   },
