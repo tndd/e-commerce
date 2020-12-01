@@ -44,7 +44,8 @@ export default {
     { path: '/api', handler: '~/api/index.js' },
     { path: '/api', handler: '~/api/product.js' },
     { path: '/api', handler: '~/api/product_inventory.js' },
-    { path: '/api', handler: '~/api/product_version.js' }
+    { path: '/api', handler: '~/api/product_version.js' },
+    { path: '/api', handler: '~/api/transaction.js' }
   ],
 
   router: {
