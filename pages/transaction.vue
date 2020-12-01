@@ -2,28 +2,7 @@
   <div>
     <div>
       <h1>Transactions</h1>
-      <table border="1">
-        <tbody>
-          <tr>
-            <th>Ordered Date</th>
-            <th>ID</th>
-            <th>Buyer ID</th>
-            <th>Product ID</th>
-            <th>Product Version</th>
-            <th>Quantity</th>
-            <th>Status</th>
-          </tr>
-          <tr v-for="t in transactions" :key="t.id">
-            <td>{{t.ordered_date}}</td>
-            <td>{{t.id}}</td>
-            <td>{{t.buyer_id}}</td>
-            <td>{{t.product_id}}</td>
-            <td>{{t.product_version}}</td>
-            <td>{{t.quantity}}</td>
-            <td>{{t.status}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <transaction-list :transactions="transactions"/>
     </div>
     <div>
       <h1>Regist Transactions</h1>
@@ -68,8 +47,10 @@
 <script>
 import { mapState } from 'vuex'
 import { mapGetters } from 'vuex'
+import TransactionList from '../components/TransactionList.vue'
 
 export default {
+  components: { TransactionList },
   data() {
     return {
       selected_product: null,
