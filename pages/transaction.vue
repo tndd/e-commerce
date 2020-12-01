@@ -127,7 +127,7 @@ export default {
     async update_transaction_status() {
       const endpoint = `http://localhost:3000/api/transaction_progress`
       const payload = {
-        id: this.update_status_id,
+        transaction_id: this.update_status_id,
         status: this.update_status
       }
       try {
@@ -138,7 +138,7 @@ export default {
       }
       catch(e) {
         console.error(e)
-        alert(`error in delete: ${endpoint}`)
+        alert(`error in update: ${endpoint}`)
       }
     }
   }

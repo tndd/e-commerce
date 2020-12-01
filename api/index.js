@@ -149,7 +149,7 @@ app.get('/transaction_progress', async (req, res) => {
 })
 
 app.post('/transaction_progress',[
-  body('id').isUUID(4),
+  body('transaction_id').isUUID(4),
   body('status').isIn(['WAITING_SHIPPING','SHIPPED','WAITING_RECEIVING','RECEIVED','CANCEL'])
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -158,7 +158,7 @@ app.post('/transaction_progress',[
   }
   const query = read_sql('./api/sql/transaction_progress/insert.sql')
   const payload = {
-    id: req.body.id,
+    transaction_id: req.body.transaction_id,
     status: req.body.status
   }
   const [status, response] = await execute_query(mysql.format(query, payload))
