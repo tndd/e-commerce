@@ -8,4 +8,4 @@ CREATE TABLE `transaction_progress` (
   KEY `transaction_progress_FK_1` (`status_id`),
   CONSTRAINT `transaction_progress_FK` FOREIGN KEY (`transaction_id`) REFERENCES `transaction` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaction_progress_FK_1` FOREIGN KEY (`status_id`) REFERENCES `transaction_status` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
