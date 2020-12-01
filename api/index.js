@@ -102,7 +102,8 @@ app.post('/transaction', [
     }
     const payload_tran_progress = {
       transaction_id,
-      update_date: ordered_date
+      update_date: ordered_date,
+      status: 'WAITING_SHIPPING'
     }
     queries.push(mysql.format(query_transaction, payload_transaction))
     queries.push(mysql.format(query_tran_progress, payload_tran_progress))
