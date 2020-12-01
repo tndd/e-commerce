@@ -8,7 +8,7 @@ export const getters = {
   cart_items(state) {
     return state.cart.map(item => ({
       id: item.product.id,
-      version: item.product.version,
+      version: item.product.update_date,
       quantity: item.quantity
     }))
   },

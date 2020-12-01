@@ -81,13 +81,13 @@ export default {
   computed: {
     ...mapState({
       transactions: state => state.transactions,
-      products: state => state.products,
       cart: state => state.cart
     }),
-    ...mapGetters([
-      'cart_items',
-      'transactions_full'
-    ])
+    ...mapGetters({
+      products: 'product/list',
+      cart_items: 'cart_items',
+      transactions_full: 'transactions_full'
+    })
   },
   methods: {
     add_to_cart() { 
