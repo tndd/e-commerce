@@ -47,7 +47,7 @@
       <h1>Update Product</h1>
       <input type="text" placeholder="id" v-model="version_form.id">
       <input type="text" placeholder="name" v-model="version_form.name">
-      <input type="number" placeholder="price" v-model="version_form.price">
+      <input type="number" placeholder="price" v-model="version_form.price"><br>
       <textarea cols="30" rows="5" placeholder="description" v-model="version_form.description"></textarea>
       <button @click="post_version()">Update Product</button>
     </div>
