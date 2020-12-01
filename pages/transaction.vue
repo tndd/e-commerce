@@ -13,7 +13,7 @@
             <th>Quantity</th>
             <th>Status</th>
           </tr>
-          <tr v-for="t in transactions_full" :key="t.id">
+          <tr v-for="t in transactions" :key="t.id">
             <td>{{t.ordered_date}}</td>
             <td>{{t.id}}</td>
             <td>{{t.buyer_id}}</td>
@@ -80,13 +80,12 @@ export default {
   },
   computed: {
     ...mapState({
-      transactions: state => state.transactions,
       cart: state => state.cart
     }),
     ...mapGetters({
       products: 'product/list',
       cart_items: 'cart_items',
-      transactions_full: 'transactions_full'
+      transactions: 'transaction/list'
     })
   },
   methods: {
@@ -117,7 +116,7 @@ export default {
       try {
         await this.$http.post(endpoint, payload)
         this.$store.commit('clear_cart_items')
-        await this.$store.dispatch('load_transactions')
+        await this.$store.dispatch('transaction/load')
       }
       catch(e) {
         console.error(e)
@@ -132,7 +131,7 @@ export default {
       }
       try {
         await this.$http.post(endpoint, payload)
-        await this.$store.dispatch('load_transactions')
+        await this.$store.dispatch('transaction/load')
         this.update_status_id = null
         this.update_status = null
       }
