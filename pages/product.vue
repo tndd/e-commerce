@@ -2,24 +2,7 @@
   <div>
     <div>
       <h1>Products</h1>
-      <table border="1">
-        <tbody>
-          <tr>
-            <th>Update Date</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Inventory</th>
-          </tr>
-          <tr v-for="p in products" :key="p.data">
-            <td>{{p.update_date}}</td>
-            <td>{{p.id}}</td>
-            <td>{{p.name}}</td>
-            <td>{{p.price}}</td>
-            <td>{{p.inventory}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <product-list :products="products"/>
     </div>
     <div>
       <h1>Add Product Form</h1>
@@ -61,8 +44,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ProductList from '../components/ProductList.vue'
 
 export default {
+  components: { ProductList },
   data() {
     return {
       product_form: {
