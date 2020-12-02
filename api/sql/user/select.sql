@@ -1,0 +1,1 @@
+SELECT id, registrant_date FROM `e-commerce`.`user`;
