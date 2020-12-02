@@ -41,9 +41,9 @@ export default {
   build: {
   },
   serverMiddleware: [
-    { path: '/api', handler: '~/api/product.js' },
-    { path: '/api', handler: '~/api/product_inventory.js' },
-    { path: '/api', handler: '~/api/product_version.js' },
+    { path: '/api', handler: '~/api/product/product.js' },
+    { path: '/api', handler: '~/api/product/product_inventory.js' },
+    { path: '/api', handler: '~/api/product/product_version.js' },
     { path: '/api', handler: '~/api/transaction.js' },
     { path: '/api', handler: '~/api/transaction_progress.js' }
   ],
