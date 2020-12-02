@@ -42,7 +42,8 @@ export default {
   },
   serverMiddleware: [
     { path: '/api', handler: '~/api/product.js' },
-    { path: '/api', handler: '~/api/transaction.js' }
+    { path: '/api', handler: '~/api/transaction.js' },
+    { path: '/api', handler: '~/api/user.js' }
   ],
 
   router: {
