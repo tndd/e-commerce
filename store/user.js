@@ -48,7 +48,6 @@ export const actions = {
   async load_versions({ commit }) {
     const endpoint = 'http://localhost:3000/api/user_version'
     const { result } = await this.$http.$get(endpoint)
-    console.log(result);
     commit('set_versions', result)
   },
   async load({ dispatch }) {
